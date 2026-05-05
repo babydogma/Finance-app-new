@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>my finance app</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!--
+    my finance app — HTML + SVG prototype
+    Файлы сделаны без внешних картинок и библиотек.
+    Все иллюстрации/иконки — inline SVG, чтобы дизайн спокойно переносился в HTML/CSS/JS.
+  -->
+
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-home" viewBox="0 0 24 24">
+      <path d="M4 10.7 12 4l8 6.7V20a1 1 0 0 1-1 1h-5v-6h-4v6H5a1 1 0 0 1-1-1v-9.3Z" />
+    </symbol>
+
+    <symbol id="i-list" viewBox="0 0 24 24">
+      <path d="M8 6h12M8 12h12M8 18h12" />
+      <circle cx="4" cy="6" r="1.6" />
+      <circle cx="4" cy="12" r="1.6" />
+      <circle cx="4" cy="18" r="1.6" />
+    </symbol>
+
+    <symbol id="i-goal" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 12 20 4" />
+      <path d="M18 4h2v2" />
+    </symbol>
+
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c1.6-4 4.2-6 8-6s6.4 2 8 6" />
+    </symbol>
+
+    <symbol id="i-wallet" viewBox="0 0 24 24">
+      <path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H19a1 1 0 0 1 1 1v3" />
+      <path d="M4 8h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 17.5v-10Z" />
+      <path d="M16 13h5v4h-5a2 2 0 0 1 0-4Z" />
+    </symbol>
+
+    <symbol id="i-arrow-up" viewBox="0 0 24 24">
+      <path d="M12 19V5" />
+      <path d="m6 11 6-6 6 6" />
+    </symbol>
+
+    <symbol id="i-arrow-down" viewBox="0 0 24 24">
+      <path d="M12 5v14" />
+      <path d="m6 13 6 6 6-6" />
+    </symbol>
+
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M18 9a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" />
+      <path d="M10 21h4" />
+    </symbol>
+
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </symbol>
+
+    <symbol id="i-back" viewBox="0 0 24 24">
+      <path d="m15 18-6-6 6-6" />
+    </symbol>
+
+    <symbol id="i-more" viewBox="0 0 24 24">
+      <circle cx="5" cy="12" r="1.7" />
+      <circle cx="12" cy="12" r="1.7" />
+      <circle cx="19" cy="12" r="1.7" />
+    </symbol>
+
+    <symbol id="i-share" viewBox="0 0 24 24">
+      <path d="M12 16V4" />
+      <path d="m7 9 5-5 5 5" />
+      <path d="M5 12v7h14v-7" />
+    </symbol>
+
+    <symbol id="i-card" viewBox="0 0 24 24">
+      <rect x="3" y="6" width="18" height="12" rx="3" />
+      <path d="M3 10h18" />
+      <path d="M7 15h3" />
+    </symbol>
+
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <path d="m12 3 2.8 5.8 6.4.9-4.6 4.5 1.1 6.3L12 17.5l-5.7 3 1.1-6.3-4.6-4.5 6.4-.9L12 3Z" />
+    </symbol>
+
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path d="M12 3 20 6v5.8c0 5-3.4 8.2-8 9.2-4.6-1-8-4.2-8-9.2V6l8-3Z" />
+      <path d="m8 12 2.5 2.5L16 9" />
+    </symbol>
+
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m16.5 16.5 4 4" />
+    </symbol>
+
+    <symbol id="i-food" viewBox="0 0 24 24">
+      <path d="M7 3v18" />
+      <path d="M4 3v6a3 3 0 0 0 6 0V3" />
+      <path d="M16 3v18" />
+      <path d="M16 3c3 1.5 4.5 4.5 3 8h-3" />
+    </symbol>
+
+    <symbol id="i-car" viewBox="0 0 24 24">
+      <path d="M5 16h14l-1.5-5.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5L5 16Z" />
+      <path d="M7 16v3M17 16v3M4 14h2M18 14h2" />
+    </symbol>
+
+    <symbol id="i-bag" viewBox="0 0 24 24">
+      <path d="M6 8h12l1 13H5L6 8Z" />
+      <path d="M9 8a3 3 0 0 1 6 0" />
+    </symbol>
+
+    <symbol id="i-bill" viewBox="0 0 24 24">
+      <path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z" />
+      <path d="M9 8h6M9 12h6M9 16h4" />
+    </symbol>
+
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="m7 7 10 10M17 7 7 17" />
+    </symbol>
+
+    <symbol id="i-percent" viewBox="0 0 24 24">
+      <path d="M19 5 5 19" />
+      <circle cx="7" cy="7" r="2" />
+      <circle cx="17" cy="17" r="2" />
+    </symbol>
+  </svg>
+
+  <main class="app-shell">
+    <section class="phone" aria-label="my finance app prototype">
+      <div class="phone__glow"></div>
+
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-icons">
+          <span class="signal"></span>
+          <span class="wifi"></span>
+          <span class="battery"></span>
+        </div>
+      </div>
+
+      <div class="screen is-active" id="screen-onboarding">
+        <div class="onboarding">
+          <div class="brand">
+            <h1>my <span>♥</span><br />finance<br /><em>app</em></h1>
+            <p>Контролируй расходы, доходы и свободные деньги без скучной бухгалтерии.</p>
+          </div>
+
+          <div class="hero-illustration" aria-hidden="true">
+            <svg viewBox="0 0 320 260" role="img">
+              <defs>
+                <linearGradient id="heroCard" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#8d6bff" />
+                  <stop offset="1" stop-color="#6be7c9" />
+                </linearGradient>
+                <linearGradient id="heroCoin" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#ffe590" />
+                  <stop offset="1" stop-color="#ffba44" />
+                </linearGradient>
+                <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#6f66ff" flood-opacity=".18"/>
+                </filter>
+              </defs>
+
+              <circle cx="42" cy="178" r="48" fill="#efe9ff" />
+              <circle cx="92" cy="58" r="36" fill="#ffe6a6" />
+              <circle cx="245" cy="72" r="18" fill="#d7c7ff" />
+              <circle cx="282" cy="40" r="17" fill="#ffb3bd" />
+              <circle cx="274" cy="176" r="40" fill="#ffc2ca" opacity=".8" />
+              <circle cx="34" cy="108" r="23" fill="#b6f1df" />
+
+              <rect x="74" y="92" width="180" height="118" rx="28" fill="url(#heroCard)" filter="url(#softShadow)" />
+              <path d="M103 171 C126 132, 146 151, 164 132 S197 111, 216 83" fill="none" stroke="#fff" stroke-width="11" stroke-linecap="round" />
+              <circle cx="103" cy="171" r="8" fill="#fff" />
+              <circle cx="216" cy="83" r="8" fill="#fff" />
+              <rect x="103" y="116" width="34" height="10" rx="5" fill="#ffffff" opacity=".65" />
+
+              <g transform="translate(218 158)">
+                <circle cx="38" cy="38" r="38" fill="url(#heroCoin)" />
+                <path d="M24 48 52 20M36 20h16v16" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+
+              <g transform="translate(245 58) rotate(12)">
+                <rect width="50" height="50" rx="14" fill="#6be7c9" />
+                <text x="25" y="34" text-anchor="middle" font-size="31" font-family="Arial" font-weight="800" fill="#fff">$</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="dots" aria-hidden="true">
+            <span class="active"></span><span></span><span></span>
+          </div>
+
+          <button class="primary-btn" data-go="home">Начать</button>
+          <button class="text-btn" data-go="home">Уже есть аккаунт? <strong>Войти</strong></button>
+        </div>
+      </div>
+
+      <div class="screen" id="screen-home">
+        <header class="topbar">
+          <button class="icon-btn" aria-label="Меню">
+            <svg><use href="#i-menu"></use></svg>
+          </button>
+          <div>
+            <p class="eyebrow">Привет, Никита 👋</p>
+            <h2>Твои деньги</h2>
+          </div>
+          <button class="icon-btn has-dot" aria-label="Уведомления">
+            <svg><use href="#i-bell"></use></svg>
+          </button>
+        </header>
+
+        <section class="balance-card">
+          <div>
+            <p>Свободно сейчас</p>
+            <strong id="freeMoney">42 350 ₽</strong>
+            <span class="pill positive">+ 11% к прошлому месяцу</span>
+          </div>
+          <svg class="mini-chart" viewBox="0 0 180 100" aria-hidden="true">
+            <path d="M5 78 C28 58, 48 68, 66 49 S101 33, 119 44 148 34, 172 9" />
+            <circle cx="172" cy="9" r="7" />
+          </svg>
+        </section>
+
+        <section class="quick-stats">
+          <article>
+            <span class="round-icon mint"><svg><use href="#i-arrow-up"></use></svg></span>
+            <p>Доходы</p>
+            <strong>85 000 ₽</strong>
+            <em>+12.5%</em>
+          </article>
+          <article>
+            <span class="round-icon pink"><svg><use href="#i-arrow-down"></use></svg></span>
+            <p>Расходы</p>
+            <strong>42 650 ₽</strong>
+            <em class="danger">-8.3%</em>
+          </article>
+        </section>
+
+        <section class="panel">
+          <div class="section-title">
+            <h3>Бюджет месяца</h3>
+            <button>Смотреть</button>
+          </div>
+          <div class="budget-row">
+            <div class="budget-row__top">
+              <span>Лимит расходов</span>
+              <strong>42 650 ₽ / 60 000 ₽</strong>
+            </div>
+            <div class="progress">
+              <span style="width: 71%"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel transactions">
+          <div class="section-title">
+            <h3>Последние операции</h3>
+            <button data-go="subscriptions">Все</button>
+          </div>
+
+          <article class="transaction">
+            <span class="logo-badge green">К</span>
+            <div>
+              <strong>KFC</strong>
+              <p>Еда</p>
+            </div>
+            <em>-350 ₽</em>
+          </article>
+
+          <article class="transaction">
+            <span class="logo-badge mint">₽</span>
+            <div>
+              <strong>Зарплата</strong>
+              <p>Доход</p>
+            </div>
+            <em class="income">+85 000 ₽</em>
+          </article>
+
+          <article class="transaction">
+            <span class="logo-badge yellow">М</span>
+            <div>
+              <strong>Маркет</strong>
+              <p>Покупки</p>
+            </div>
+            <em>-1 290 ₽</em>
+          </article>
+
+          <article class="transaction">
+            <span class="logo-badge blue">Т</span>
+            <div>
+              <strong>Транспорт</strong>
+              <p>Метро / такси</p>
+            </div>
+            <em>-625 ₽</em>
+          </article>
+        </section>
+
+        <section class="categories">
+          <h3>Категории</h3>
+          <div class="chips">
+            <button><svg><use href="#i-food"></use></svg> Еда</button>
+            <button><svg><use href="#i-car"></use></svg> Транспорт</button>
+            <button><svg><use href="#i-bag"></use></svg> Покупки</button>
+            <button><svg><use href="#i-bill"></use></svg> Платежи</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="screen" id="screen-goal">
+        <header class="topbar topbar--center">
+          <button class="icon-btn" data-go="home" aria-label="Назад">
+            <svg><use href="#i-back"></use></svg>
+          </button>
+          <h2>Цель</h2>
+          <button class="icon-btn" aria-label="Поделиться">
+            <svg><use href="#i-share"></use></svg>
+          </button>
+        </header>
+
+        <section class="goal-hero">
+          <svg class="goal-illustration" viewBox="0 0 220 120" aria-hidden="true">
+            <defs>
+              <linearGradient id="goalBg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#8a70ff" />
+                <stop offset=".55" stop-color="#f0a7d4" />
+                <stop offset="1" stop-color="#ffe3ac" />
+              </linearGradient>
+            </defs>
+            <rect width="220" height="120" rx="26" fill="url(#goalBg)" />
+            <circle cx="110" cy="38" r="29" fill="#fff" opacity=".45" />
+            <path d="M101 50c12-12 22-12 32-1" fill="none" stroke="#20c997" stroke-width="8" stroke-linecap="round" />
+            <path d="M108 48c1-14-3-21-11-26" stroke="#996736" stroke-width="8" stroke-linecap="round" />
+            <path d="M109 45c8-14 17-19 29-19" stroke="#19b66a" stroke-width="8" stroke-linecap="round" />
+            <path d="M88 61c17 8 42 8 60 0" fill="#ffd468" />
+            <path d="M36 31l4 10 10 4-10 4-4 10-4-10-10-4 10-4 4-10Z" fill="#fff3a3" />
+            <path d="M179 25l3 8 8 3-8 3-3 8-3-8-8-3 8-3 3-8Z" fill="#fff3a3" />
+          </svg>
+
+          <h2>Dream Vacation 🌴</h2>
+          <p>Накопить на поездку без боли и хаоса</p>
+
+          <div class="goal-money">
+            <span>57%</span>
+            <strong>285 000 ₽ из 500 000 ₽</strong>
+          </div>
+
+          <div class="progress progress--white">
+            <span style="width: 57%"></span>
+          </div>
+
+          <div class="goal-meta">
+            <span>До 31.12.2026</span>
+            <em>● По плану</em>
+          </div>
+        </section>
+
+        <section class="content-block">
+          <h3>Зачем это нужно</h3>
+          <p>Чтобы деньги не растворялись в мелочах, а реально двигались к цели.</p>
+        </section>
+
+        <section class="benefits">
+          <h3>Плюсы</h3>
+
+          <article>
+            <span class="round-icon mint"><svg><use href="#i-search"></use></svg></span>
+            <div>
+              <strong>Видишь прогресс</strong>
+              <p>Понятно, сколько осталось и какой темп держать.</p>
+            </div>
+          </article>
+
+          <article>
+            <span class="round-icon purple"><svg><use href="#i-star"></use></svg></span>
+            <div>
+              <strong>Не сливаешь лишнее</strong>
+              <p>Цель напоминает, зачем ты откладываешь.</p>
+            </div>
+          </article>
+
+          <article>
+            <span class="round-icon blue"><svg><use href="#i-shield"></use></svg></span>
+            <div>
+              <strong>Есть запас</strong>
+              <p>Деньги лежат не просто так, а под конкретный смысл.</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="goal-stats">
+          <article>
+            <p>В месяц</p>
+            <strong>25 000 ₽</strong>
+          </article>
+          <article>
+            <p>Сейчас</p>
+            <strong>285 000 ₽</strong>
+          </article>
+          <article>
+            <p>Осталось</p>
+            <strong>215 000 ₽</strong>
+          </article>
+        </section>
+
+        <button class="primary-btn">Добавить деньги</button>
+        <button class="outline-btn">Изменить цель</button>
+      </div>
+
+      <div class="screen" id="screen-subscriptions">
+        <header class="topbar topbar--center">
+          <button class="icon-btn" data-go="home" aria-label="Назад">
+            <svg><use href="#i-back"></use></svg>
+          </button>
+          <h2>Подписки</h2>
+          <button class="icon-btn" aria-label="Ещё">
+            <svg><use href="#i-more"></use></svg>
+          </button>
+        </header>
+
+        <section class="subs-card">
+          <div>
+            <p>Расход в месяц</p>
+            <strong>2 950 ₽</strong>
+            <span class="pill positive">↓ на 450 ₽</span>
+          </div>
+
+          <svg class="donut" viewBox="0 0 120 120" aria-hidden="true">
+            <circle cx="60" cy="60" r="42" />
+            <circle cx="60" cy="60" r="42" />
+            <circle cx="60" cy="60" r="42" />
+            <circle cx="60" cy="60" r="42" />
+            <g class="donut-icon">
+              <rect x="42" y="50" width="36" height="24" rx="6" />
+              <path d="M42 58h36" />
+            </g>
+          </svg>
+        </section>
+
+        <section class="panel subscriptions-list">
+          <div class="section-title">
+            <h3>Ближайшие списания</h3>
+            <button>Все</button>
+          </div>
+
+          <article class="subscription">
+            <span class="app-logo red">N</span>
+            <div>
+              <strong>Netflix</strong>
+              <p>20 мая</p>
+            </div>
+            <em>1 550 ₽</em>
+          </article>
+
+          <article class="subscription">
+            <span class="app-logo green">S</span>
+            <div>
+              <strong>Spotify</strong>
+              <p>21 мая</p>
+            </div>
+            <em>990 ₽</em>
+          </article>
+
+          <article class="subscription">
+            <span class="app-logo blue">D</span>
+            <div>
+              <strong>Dropbox</strong>
+              <p>24 мая</p>
+            </div>
+            <em>410 ₽</em>
+          </article>
+        </section>
+
+        <section class="benefits benefits--compact">
+          <h3>Умнее управлять</h3>
+
+          <article>
+            <span class="round-icon pink"><svg><use href="#i-x"></use></svg></span>
+            <div>
+              <strong>Отменить лишнее</strong>
+              <p>Быстро найти подписки, которые жрут деньги.</p>
+            </div>
+          </article>
+
+          <article>
+            <span class="round-icon purple"><svg><use href="#i-bell"></use></svg></span>
+            <div>
+              <strong>Не забывать</strong>
+              <p>Получать напоминания перед списанием.</p>
+            </div>
+          </article>
+
+          <article>
+            <span class="round-icon blue"><svg><use href="#i-percent"></use></svg></span>
+            <div>
+              <strong>Экономить</strong>
+              <p>Видеть, где можно ужаться без боли.</p>
+            </div>
+          </article>
+        </section>
+
+        <button class="primary-btn">Проверить подписки</button>
+      </div>
+
+      <nav class="bottom-nav" aria-label="Навигация">
+        <button class="nav-btn is-active" data-go="home">
+          <svg><use href="#i-home"></use></svg>
+          <span>Главная</span>
+        </button>
+        <button class="nav-btn" data-go="subscriptions">
+          <svg><use href="#i-list"></use></svg>
+          <span>Операции</span>
+        </button>
+        <button class="nav-add" data-action="add" aria-label="Добавить операцию">+</button>
+        <button class="nav-btn" data-go="goal">
+          <svg><use href="#i-goal"></use></svg>
+          <span>Цель</span>
+        </button>
+        <button class="nav-btn" data-go="subscriptions">
+          <svg><use href="#i-user"></use></svg>
+          <span>Профиль</span>
+        </button>
+      </nav>
+
+      <div class="add-sheet" id="addSheet" aria-hidden="true">
+        <div class="add-sheet__card">
+          <div class="sheet-handle"></div>
+          <h3>Новая операция</h3>
+
+          <label>
+            Тип
+            <select id="typeInput">
+              <option value="expense">Расход</option>
+              <option value="income">Доход</option>
+            </select>
+          </label>
+
+          <label>
+            Сумма
+            <input id="amountInput" type="number" inputmode="numeric" placeholder="Например 350" />
+          </label>
+
+          <label>
+            Категория
+            <input id="categoryInput" type="text" placeholder="Еда, транспорт, зарплата..." />
+          </label>
+
+          <div class="sheet-actions">
+            <button class="outline-btn" data-action="close">Закрыть</button>
+            <button class="primary-btn" data-action="save">Сохранить</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
